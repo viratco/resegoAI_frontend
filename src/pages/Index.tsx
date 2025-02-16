@@ -12,14 +12,15 @@ const Index = () => {
         entries.forEach((entry) => {
           // Only add class if element is not already animated
           if (entry.isIntersecting && !entry.target.classList.contains("has-animated")) {
-            entry.target.classList.add("fade-in");
+            const animationClass = entry.target.dataset.animation || "fade-in";
+            entry.target.classList.add(animationClass);
             entry.target.classList.add("has-animated");
           }
         });
       },
       { 
-        threshold: 0.2, // Increased threshold for better timing
-        rootMargin: "0px 0px -100px 0px" // Triggers animation slightly before element is in view
+        threshold: 0.2,
+        rootMargin: "0px 0px -100px 0px"
       }
     );
 
@@ -43,8 +44,8 @@ const Index = () => {
       <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
         <div className="absolute inset-0 bg-gradient-to-b from-accent to-background -z-10" />
         <div className="container max-w-6xl mx-auto text-center">
-          <div className="animate-on-scroll opacity-0">
-            <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6 inline-block">
+          <div className="animate-on-scroll opacity-0" data-animation="fade-in-up">
+            <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6 inline-block floating">
               Advancing AI Research
             </span>
             <h1 className="font-heading text-5xl md:text-7xl font-bold mb-6 text-balance">
@@ -70,7 +71,7 @@ const Index = () => {
       {/* Features Section */}
       <section className="py-20 px-4 bg-white">
         <div className="container max-w-6xl mx-auto">
-          <div className="text-center mb-16 animate-on-scroll opacity-0">
+          <div className="text-center mb-16 animate-on-scroll opacity-0" data-animation="fade-in-up">
             <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6 inline-block">
               Features
             </span>
@@ -88,6 +89,7 @@ const Index = () => {
               <div
                 key={feature.title}
                 className="animate-on-scroll opacity-0 glass-card p-6 rounded-xl"
+                data-animation={index % 2 === 0 ? "fade-in-left" : "fade-in-right"}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <feature.icon className="w-12 h-12 text-primary mb-4" />
@@ -109,6 +111,7 @@ const Index = () => {
               <div
                 key={stat.label}
                 className="animate-on-scroll opacity-0 text-center"
+                data-animation="scale-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="font-heading text-4xl font-bold text-primary mb-2">
@@ -123,7 +126,7 @@ const Index = () => {
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-white">
-        <div className="container max-w-6xl mx-auto text-center animate-on-scroll opacity-0">
+        <div className="container max-w-6xl mx-auto text-center animate-on-scroll opacity-0" data-animation="fade-in-up">
           <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6">
             Ready to Transform Your Research?
           </h2>
