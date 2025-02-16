@@ -50,30 +50,52 @@
 }
 
 .fade-in {
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.7s ease-out forwards;
+  will-change: opacity, transform;
 }
 
 .slide-up {
-  animation: slideUp 0.5s ease-out;
+  animation: slideUp 0.7s ease-out forwards;
+  will-change: opacity, transform;
 }
 
 @keyframes fadeIn {
-  from {
+  0% {
     opacity: 0;
+    transform: translateY(20px);
   }
-  to {
+  100% {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes slideUp {
-  from {
-    transform: translateY(20px);
+  0% {
     opacity: 0;
+    transform: translateY(30px);
   }
-  to {
-    transform: translateY(0);
+  100% {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
+/* Prevent animation flicker on page load */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optimize performance */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

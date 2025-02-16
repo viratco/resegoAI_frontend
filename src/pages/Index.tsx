@@ -6,21 +6,35 @@ const Index = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
+    // Create observer with better options for smoother animations
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
+          // Only add class if element is not already animated
+          if (entry.isIntersecting && !entry.target.classList.contains("has-animated")) {
             entry.target.classList.add("fade-in");
+            entry.target.classList.add("has-animated");
           }
         });
       },
-      { threshold: 0.1 }
+      { 
+        threshold: 0.2, // Increased threshold for better timing
+        rootMargin: "0px 0px -100px 0px" // Triggers animation slightly before element is in view
+      }
     );
 
     const elements = document.querySelectorAll(".animate-on-scroll");
-    elements.forEach((el) => observerRef.current?.observe(el));
+    elements.forEach((el) => {
+      if (!el.classList.contains("has-animated")) {
+        observerRef.current?.observe(el);
+      }
+    });
 
-    return () => observerRef.current?.disconnect();
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
   }, []);
 
   return (
