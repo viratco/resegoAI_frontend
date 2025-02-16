@@ -1,4 +1,3 @@
-
 import { Brain, ChartLine, Database, Layers, Network, ArrowRight, Sparkles, Users } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -20,24 +19,32 @@ const Index = () => {
       (entries) => {
         entries.forEach((entry) => {
           const element = entry.target as HTMLElement;
-          if (entry.isIntersecting && !element.classList.contains("has-animated")) {
+          if (entry.isIntersecting) {
+            if (!element.classList.contains("is-visible")) {
+              element.classList.add("is-visible");
+              const animationClass = element.dataset.animation || "fade-in";
+              element.classList.add(animationClass);
+            }
+          } else {
+            element.classList.remove("is-visible");
             const animationClass = element.dataset.animation || "fade-in";
-            element.classList.add(animationClass);
-            element.classList.add("has-animated");
+            element.classList.remove(animationClass);
+            element.classList.add("fade-out");
+            setTimeout(() => {
+              element.classList.remove("fade-out");
+            }, 700);
           }
         });
       },
       { 
         threshold: 0.2,
-        rootMargin: "0px 0px -100px 0px"
+        rootMargin: "-100px 0px"
       }
     );
 
     const elements = document.querySelectorAll(".animate-on-scroll");
     elements.forEach((el) => {
-      if (!el.classList.contains("has-animated")) {
-        observerRef.current?.observe(el);
-      }
+      observerRef.current?.observe(el);
     });
 
     return () => {
@@ -54,7 +61,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-accent via-background to-accent/50 -z-10" />
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNCI+PHBhdGggZD0iTTM2IDM0aDR2MmgtNHYtMnptMC04aDR2MmgtNHYtMnptMCAxNmg0djJoLTR2LTJ6bS0xNy0xMmg0djJoLTR2LTJ6bTAtOGg0djJoLTR2LTJ6bTAgMTZoNHYyaC00di0yem0wLThoNHYyaC00di0yem0wLThoNHYyaC00di0yem0wIDE2aDR2MmgtNHYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-20 -z-10" />
         <div className="container max-w-6xl mx-auto text-center">
-          <div className="animate-on-scroll opacity-0" data-animation="fade-in-up">
+          <div className="animate-on-scroll opacity-0" data-animation="fade-in-blur">
             <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-medium text-sm mb-6 inline-block floating">
               <Sparkles className="w-4 h-4 inline-block mr-2" />
               Advancing AI Research
@@ -102,16 +109,11 @@ const Index = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="animate-on-scroll opacity-0 glass-card p-6 rounded-xl group hover:scale-105 transition-all duration-300 cursor-pointer"
-                data-animation={index % 2 === 0 ? "fade-in-left" : "fade-in-right"}
+                className="animate-on-scroll opacity-0 glass-card p-6 rounded-xl"
+                data-animation="fade-in-blur"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="relative">
-                  <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-200" />
-                  <div className="relative">
-                    <feature.icon className="w-12 h-12 text-primary mb-4 transform group-hover:scale-110 transition-transform" />
-                  </div>
-                </div>
+                <feature.icon className="w-12 h-12 text-primary mb-4" />
                 <h3 className="font-heading text-xl font-semibold mb-2">
                   {feature.title}
                 </h3>
@@ -130,8 +132,8 @@ const Index = () => {
             {stats.map((stat, index) => (
               <div
                 key={stat.label}
-                className="animate-on-scroll opacity-0 text-center hover:scale-105 transition-transform duration-300"
-                data-animation="scale-in"
+                className="animate-on-scroll opacity-0 text-center"
+                data-animation="fade-in-blur"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="font-heading text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-2">
@@ -162,7 +164,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Back to Top Button - appears when scrolled */}
+      {/* Back to Top Button */}
       <button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         className={`fixed bottom-8 right-8 p-3 rounded-full bg-primary text-white shadow-lg transition-all duration-300 hover:scale-110 ${
