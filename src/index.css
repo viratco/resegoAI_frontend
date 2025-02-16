@@ -46,7 +46,7 @@
 }
 
 .glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300;
 }
 
 .fade-in {
@@ -90,19 +90,19 @@
 }
 
 .fade-in-left {
-  animation: fadeInLeft 0.7s ease-out forwards;
+  animation: fadeInLeft 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .fade-in-right {
-  animation: fadeInRight 0.7s ease-out forwards;
+  animation: fadeInRight 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .fade-in-up {
-  animation: fadeInUp 0.7s ease-out forwards;
+  animation: fadeInUp 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .scale-in {
-  animation: scaleIn 0.7s ease-out forwards;
+  animation: scaleIn 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes fadeInLeft {
