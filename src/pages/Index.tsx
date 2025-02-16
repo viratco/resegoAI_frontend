@@ -10,11 +10,13 @@ const Index = () => {
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Cast the target to HTMLElement to access dataset
+          const element = entry.target as HTMLElement;
           // Only add class if element is not already animated
-          if (entry.isIntersecting && !entry.target.classList.contains("has-animated")) {
-            const animationClass = entry.target.dataset.animation || "fade-in";
-            entry.target.classList.add(animationClass);
-            entry.target.classList.add("has-animated");
+          if (entry.isIntersecting && !element.classList.contains("has-animated")) {
+            const animationClass = element.dataset.animation || "fade-in";
+            element.classList.add(animationClass);
+            element.classList.add("has-animated");
           }
         });
       },
