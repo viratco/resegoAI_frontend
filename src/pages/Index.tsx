@@ -100,7 +100,7 @@ const Index = () => {
               <Sparkles className="w-4 h-4 inline-block mr-2" />
               Features
             </span>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
+            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
               Everything You Need
             </h2>
             <p className="text-[#6B7280] max-w-2xl mx-auto">
@@ -113,17 +113,19 @@ const Index = () => {
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="animate-on-scroll opacity-0 bg-gradient-to-br from-white to-[#F1F0FB] p-6 rounded-xl border border-[#E5DEFF] shadow-lg"
+                className="animate-on-scroll opacity-0 bg-gradient-to-br from-white to-[#F1F0FB] p-8 rounded-xl border border-[#E5DEFF] shadow-lg"
                 data-animation="fade-in-blur"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="bg-[#8B5CF6]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
                   <feature.icon className="w-8 h-8 text-[#8B5CF6]" />
                 </div>
-                <h3 className="font-heading text-xl font-semibold mb-2 text-[#1F2937]">
+                <h3 className="font-heading text-xl font-semibold mb-3 text-[#1F2937]">
                   {feature.title}
                 </h3>
-                <p className="text-[#6B7280]">{feature.description}</p>
+                <p className="text-[#6B7280] leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
