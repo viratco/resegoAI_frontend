@@ -45,54 +45,29 @@
   }
 }
 
-.glass-card {
-  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl transition-all duration-300;
-}
-
-.fade-in {
-  animation: fadeIn 0.7s ease-out forwards;
-  will-change: opacity, transform;
-}
-
-.slide-up {
-  animation: slideUp 0.7s ease-out forwards;
-  will-change: opacity, transform;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Scroll Animations */
+/* Animations */
 .animate-on-scroll {
   opacity: 0;
   transform: translateY(20px);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .animate-on-scroll.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .fade-in-left {
@@ -155,6 +130,11 @@
   }
 }
 
+/* Grid Pattern Background */
+.bg-grid-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238B5CF6' fill-opacity='0.05'%3E%3Cpath d='M36 34h4v2h-4v-2zm0-8h4v2h-4v-2zm0 16h4v2h-4v-2zm-17-12h4v2h-4v-2zm0-8h4v2h-4v-2zm0 16h4v2h-4v-2zm0-8h4v2h-4v-2zm0-8h4v2h-4v-2zm0 16h4v2h-4v-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
 /* Ensure smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -164,54 +144,4 @@ html {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Parallax effect */
-.parallax {
-  transform: translateZ(0);
-  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.floating {
-  animation: floating 3s ease-in-out infinite;
-}
-
-@keyframes floating {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-/* New animations */
-.fade-out {
-  animation: fadeOut 0.7s ease-out forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-}
-
-.fade-in-blur {
-  animation: fadeInBlur 0.7s ease-out forwards;
-}
-
-@keyframes fadeInBlur {
-  0% {
-    opacity: 0;
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    filter: blur(0);
-  }
 }
