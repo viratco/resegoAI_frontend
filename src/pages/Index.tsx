@@ -1,6 +1,6 @@
-
 import { Brain, ChartLine, Database, Layers, Network, ArrowRight, Sparkles, Users } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -80,9 +80,12 @@ const Index = () => {
                 Start Exploring
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="px-8 py-3 rounded-lg border border-[#8B5CF6]/20 text-[#8B5CF6] hover:bg-[#8B5CF6]/5 transition-all duration-300">
+              <Link 
+                to="/how-it-works" 
+                className="px-8 py-3 rounded-lg border border-[#8B5CF6]/20 text-[#8B5CF6] hover:bg-[#8B5CF6]/5 transition-all duration-300"
+              >
                 How It Works
-              </button>
+              </Link>
             </div>
           </div>
         </div>
