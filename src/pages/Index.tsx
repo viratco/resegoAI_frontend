@@ -173,33 +173,7 @@ const Index = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Step Descriptions */}
-            <div className="space-y-8">
-              {steps.slice(0, 4).map((step, index) => (
-                <div
-                  key={step.title}
-                  className="animate-on-scroll opacity-0 bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-[#E5DEFF] shadow-lg"
-                  data-animation="fade-in-left"
-                  style={{ animationDelay: `${index * 150}ms` }}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="w-10 h-10 bg-[#8B5CF6]/10 rounded-lg flex items-center justify-center shrink-0">
-                      <span className="text-lg font-bold text-[#8B5CF6]">{index + 1}</span>
-                    </div>
-                    <div>
-                      <h3 className="font-heading text-xl font-semibold mb-2 text-[#1F2937]">
-                        {step.title}
-                      </h3>
-                      <p className="text-[#6B7280] leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Right Column - Arrow UI */}
+            {/* Left Column - Arrow UI */}
             <div className="relative hidden md:block">
               <div className="absolute inset-0 bg-[#8B5CF6]/5 rounded-3xl" />
               <div className="relative p-8 min-h-[600px] flex flex-col items-center justify-between">
@@ -220,14 +194,40 @@ const Index = () => {
                   <div className="w-16 h-16 rounded-full bg-[#9B87F5] text-white flex items-center justify-center text-xl font-bold">4</div>
                 </div>
 
-                {/* Animated Arrows */}
+                {/* Static Arrows */}
                 <div className="absolute left-1/2 top-[28%] -translate-x-1/2 opacity-70">
-                  <ArrowRight className="w-6 h-6 text-[#8B5CF6] animate-bounce" />
+                  <ArrowRight className="w-6 h-6 text-[#8B5CF6] transform rotate-90" />
                 </div>
                 <div className="absolute left-1/2 top-[72%] -translate-x-1/2 opacity-70">
-                  <ArrowRight className="w-6 h-6 text-[#8B5CF6] animate-bounce" />
+                  <ArrowRight className="w-6 h-6 text-[#8B5CF6] transform rotate-90" />
                 </div>
               </div>
+            </div>
+
+            {/* Right Column - Step Descriptions */}
+            <div className="space-y-8">
+              {steps.slice(0, 4).map((step, index) => (
+                <div
+                  key={step.title}
+                  className="animate-on-scroll opacity-0 bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-[#E5DEFF] shadow-lg"
+                  data-animation="fade-in-right"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-[#8B5CF6]/10 rounded-lg flex items-center justify-center shrink-0">
+                      <span className="text-lg font-bold text-[#8B5CF6]">{index + 1}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-heading text-xl font-semibold mb-2 text-[#1F2937]">
+                        {step.title}
+                      </h3>
+                      <p className="text-[#6B7280] leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
