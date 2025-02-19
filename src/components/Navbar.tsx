@@ -44,12 +44,12 @@ const Navbar = () => {
               Home
             </Link>
             <Link 
-              to="/how-it-works" 
+              to="/inventory" 
               className={`text-gray-600 hover:text-primary transition-colors ${
-                location.pathname === "/how-it-works" ? "text-primary" : ""
+                location.pathname === "/inventory" ? "text-primary" : ""
               }`}
             >
-              How It Works
+              Inventory
             </Link>
             <Link to="/login">
               <Button variant="outline" className="mr-2">Sign In</Button>
@@ -85,13 +85,13 @@ const Navbar = () => {
                 Home
               </Link>
               <Link 
-                to="/how-it-works" 
+                to="/inventory" 
                 className={`text-gray-600 hover:text-primary transition-colors ${
-                  location.pathname === "/how-it-works" ? "text-primary" : ""
+                  location.pathname === "/inventory" ? "text-primary" : ""
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                How It Works
+                Inventory
               </Link>
               <Link 
                 to="/login"

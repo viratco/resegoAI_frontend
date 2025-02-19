@@ -1,6 +1,7 @@
 import { Brain, ChartLine, Database, Layers, Network, ArrowRight, Sparkles, Users } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { Instagram, Linkedin } from "lucide-react";
 
 const Index = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -154,21 +155,70 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 px-4 bg-white relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-white to-[#F1F0FB] opacity-70" />
-        <div className="container max-w-6xl mx-auto text-center animate-on-scroll opacity-0 relative" data-animation="fade-in-up">
-          <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
-            Ready to Transform Your Research?
+      {/* How It Works Section */}
+      <section className="py-20 px-4 bg-[#F1F0FB] relative">
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#8B5CF6]/5" />
+        <div className="container max-w-6xl mx-auto relative">
+          <div className="text-center mb-16 animate-on-scroll opacity-0" data-animation="fade-in-up">
+            <span className="px-4 py-2 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] font-medium text-sm mb-6 inline-block">
+              <Sparkles className="w-4 h-4 inline-block mr-2" />
+              How It Works
+            </span>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
+              Simple and Effective
+            </h2>
+            <p className="text-[#6B7280] max-w-2xl mx-auto">
+              Our platform makes it easy to discover, analyze, and contribute to AI research.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {steps.map((step, index) => (
+              <div
+                key={step.title}
+                className="animate-on-scroll opacity-0 bg-white/80 backdrop-blur-sm p-8 rounded-xl border border-[#E5DEFF] shadow-lg"
+                data-animation="fade-in-blur"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <div className="w-12 h-12 bg-[#8B5CF6]/10 rounded-lg flex items-center justify-center mb-6">
+                  <span className="text-xl font-bold text-[#8B5CF6]">{index + 1}</span>
+                </div>
+                <h3 className="font-heading text-xl font-semibold mb-3 text-[#1F2937]">
+                  {step.title}
+                </h3>
+                <p className="text-[#6B7280] leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-16 px-4 bg-white relative">
+        <div className="container max-w-6xl mx-auto text-center animate-on-scroll opacity-0" data-animation="fade-in-up">
+          <h2 className="font-heading text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
+            Connect With Us
           </h2>
-          <p className="text-[#6B7280] max-w-2xl mx-auto mb-8">
-            Join thousands of researchers who are already using our platform to advance
-            their AI research.
-          </p>
-          <button className="group px-8 py-3 rounded-lg bg-[#8B5CF6] text-white font-medium hover:bg-[#7C3AED] transition-all duration-300 flex items-center justify-center gap-2 mx-auto">
-            Get Started Now
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
+          <div className="flex justify-center gap-6">
+            <a
+              href="https://instagram.com/your-handle"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
+            >
+              <Instagram className="w-6 h-6" />
+            </a>
+            <a
+              href="https://linkedin.com/in/your-profile"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
+            >
+              <Linkedin className="w-6 h-6" />
+            </a>
+          </div>
         </div>
       </section>
 
@@ -240,6 +290,33 @@ const stats = [
   {
     value: "95%",
     label: "Satisfaction Rate",
+  },
+];
+
+const steps = [
+  {
+    title: "Create an Account",
+    description: "Sign up for free and set up your research profile with your interests and expertise.",
+  },
+  {
+    title: "Explore Research",
+    description: "Browse through our extensive database of AI research papers and find relevant content.",
+  },
+  {
+    title: "Save and Organize",
+    description: "Save papers to your inventory and organize them with tags and collections.",
+  },
+  {
+    title: "Stay Updated",
+    description: "Get notifications about new papers in your field and track research trends.",
+  },
+  {
+    title: "Collaborate",
+    description: "Connect with other researchers and collaborate on projects and papers.",
+  },
+  {
+    title: "Share Insights",
+    description: "Share your findings and contribute to the AI research community.",
   },
 ];
 
