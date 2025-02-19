@@ -172,25 +172,63 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {steps.map((step, index) => (
-              <div
-                key={step.title}
-                className="animate-on-scroll opacity-0 bg-white/80 backdrop-blur-sm p-8 rounded-xl border border-[#E5DEFF] shadow-lg"
-                data-animation="fade-in-blur"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="w-12 h-12 bg-[#8B5CF6]/10 rounded-lg flex items-center justify-center mb-6">
-                  <span className="text-xl font-bold text-[#8B5CF6]">{index + 1}</span>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Step Descriptions */}
+            <div className="space-y-8">
+              {steps.slice(0, 4).map((step, index) => (
+                <div
+                  key={step.title}
+                  className="animate-on-scroll opacity-0 bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-[#E5DEFF] shadow-lg"
+                  data-animation="fade-in-left"
+                  style={{ animationDelay: `${index * 150}ms` }}
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 bg-[#8B5CF6]/10 rounded-lg flex items-center justify-center shrink-0">
+                      <span className="text-lg font-bold text-[#8B5CF6]">{index + 1}</span>
+                    </div>
+                    <div>
+                      <h3 className="font-heading text-xl font-semibold mb-2 text-[#1F2937]">
+                        {step.title}
+                      </h3>
+                      <p className="text-[#6B7280] leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-heading text-xl font-semibold mb-3 text-[#1F2937]">
-                  {step.title}
-                </h3>
-                <p className="text-[#6B7280] leading-relaxed">
-                  {step.description}
-                </p>
+              ))}
+            </div>
+
+            {/* Right Column - Arrow UI */}
+            <div className="relative hidden md:block">
+              <div className="absolute inset-0 bg-[#8B5CF6]/5 rounded-3xl" />
+              <div className="relative p-8 min-h-[600px] flex flex-col items-center justify-between">
+                {/* Step 1 to 2 */}
+                <div className="w-full flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center text-xl font-bold">1</div>
+                  <div className="h-20 w-px bg-gradient-to-b from-[#8B5CF6] to-[#D946EF]" />
+                  <div className="w-16 h-16 rounded-full bg-[#9B87F5] text-white flex items-center justify-center text-xl font-bold">2</div>
+                </div>
+
+                {/* Connecting Line */}
+                <div className="w-px h-20 bg-gradient-to-b from-[#9B87F5] to-[#8B5CF6] my-4" />
+
+                {/* Step 3 to 4 */}
+                <div className="w-full flex flex-col items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center text-xl font-bold">3</div>
+                  <div className="h-20 w-px bg-gradient-to-b from-[#8B5CF6] to-[#D946EF]" />
+                  <div className="w-16 h-16 rounded-full bg-[#9B87F5] text-white flex items-center justify-center text-xl font-bold">4</div>
+                </div>
+
+                {/* Animated Arrows */}
+                <div className="absolute left-1/2 top-[28%] -translate-x-1/2 opacity-70">
+                  <ArrowRight className="w-6 h-6 text-[#8B5CF6] animate-bounce" />
+                </div>
+                <div className="absolute left-1/2 top-[72%] -translate-x-1/2 opacity-70">
+                  <ArrowRight className="w-6 h-6 text-[#8B5CF6] animate-bounce" />
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
