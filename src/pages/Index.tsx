@@ -210,8 +210,8 @@ const Index = () => {
                 <div
                   key={step.title}
                   className="animate-on-scroll opacity-0 bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-[#E5DEFF] shadow-lg"
-                  data-animation="fade-in-right"
-                  style={{ animationDelay: `${index * 150}ms` }}
+                  data-animation="fade-in-blur"
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 bg-[#8B5CF6]/10 rounded-lg flex items-center justify-center shrink-0">
@@ -235,27 +235,29 @@ const Index = () => {
 
       {/* Contact Section */}
       <section className="py-16 px-4 bg-white relative">
-        <div className="container max-w-6xl mx-auto text-center animate-on-scroll opacity-0" data-animation="fade-in-up">
-          <h2 className="font-heading text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
-            Connect With Us
-          </h2>
-          <div className="flex justify-center gap-6">
-            <a
-              href="https://instagram.com/your-handle"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
-            >
-              <Instagram className="w-6 h-6" />
-            </a>
-            <a
-              href="https://linkedin.com/in/your-profile"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
-            >
-              <Linkedin className="w-6 h-6" />
-            </a>
+        <div className="container max-w-6xl mx-auto">
+          <div className="animate-on-scroll opacity-0" data-animation="fade-in-blur">
+            <h2 className="text-center font-heading text-3xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
+              Connect With Us
+            </h2>
+            <div className="flex justify-center gap-6">
+              <a
+                href="https://instagram.com/your-handle"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
+              >
+                <Instagram className="w-6 h-6" />
+              </a>
+              <a
+                href="https://linkedin.com/in/your-profile"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
+              >
+                <Linkedin className="w-6 h-6" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
