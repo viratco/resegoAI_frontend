@@ -2,9 +2,36 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Github, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { login } from "@/utils/auth";
+import { useToast } from "@/components/ui/use-toast";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const result = await login(email, password);
+      if (result) {
+        toast({
+          title: "Success",
+          description: "Logged in successfully",
+        });
+        navigate('/');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F1F0FB] via-white to-[#E5DEFF]">
       <div className="absolute inset-0 opacity-10 bg-grid-pattern" />
@@ -14,15 +41,29 @@ const Login = () => {
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
-        <div className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-[#E5DEFF]">
+        <form onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-lg border border-[#E5DEFF]">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Input type="email" placeholder="Email" />
+              <Input 
+                type="email" 
+                placeholder="Email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
             </div>
             <div className="space-y-2">
-              <Input type="password" placeholder="Password" />
+              <Input 
+                type="password" 
+                placeholder="Password" 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
             </div>
-            <Button className="w-full">Sign in</Button>
+            <Button className="w-full" type="submit" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Sign in"}
+            </Button>
           </div>
 
           <div className="relative my-6">
@@ -35,11 +76,11 @@ const Login = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" type="button">
               <Github className="mr-2 h-4 w-4" />
               GitHub
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" type="button">
               <Mail className="mr-2 h-4 w-4" />
               Google
             </Button>
@@ -51,7 +92,7 @@ const Login = () => {
               Sign up
             </Link>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );
