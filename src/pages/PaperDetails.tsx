@@ -32,35 +32,43 @@ export default function PaperDetails() {
           throw new Error('No valid session');
         }
 
-        console.log('Making API request with token:', session.access_token.substring(0, 10) + '...');
-        console.log('Abstract:', paper.abstract.substring(0, 100) + '...');
+        setLoading(true);
+        
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-        const response = await fetch(`${API_URL}/api/analyze-paper`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`
-          },
-          body: JSON.stringify({ abstract: paper.abstract }),
-        });
+        try {
+          const response = await fetch(`${API_URL}/api/analyze-paper`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`
+            },
+            body: JSON.stringify({ abstract: paper.abstract }),
+            signal: controller.signal
+          });
 
-        console.log('API Response Status:', response.status);
-        console.log('API Response Headers:', Object.fromEntries(response.headers.entries()));
+          clearTimeout(timeoutId);
 
-        const data = await response.json();
-        console.log('API Response Data:', data);
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.error || 'Failed to generate summary');
+          }
 
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to generate summary');
+          const data = await response.json();
+          setAiSummary(data.summary);
+          
+        } catch (fetchError) {
+          if (fetchError.name === 'AbortError') {
+            throw new Error('Request timed out. Please try again.');
+          }
+          throw fetchError;
+        } finally {
+          clearTimeout(timeoutId);
         }
 
-        setAiSummary(data.summary);
       } catch (error) {
-        console.error('Detailed Error:', {
-          message: error instanceof Error ? error.message : 'Unknown error',
-          time: new Date().toISOString()
-        });
-        
+        console.error('Error:', error);
         toast({
           title: "Error",
           description: error instanceof Error ? error.message : "Failed to generate summary",
