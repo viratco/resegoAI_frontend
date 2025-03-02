@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { toast } from "@/components/ui/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface Paper {
   title: string;
@@ -18,6 +19,7 @@ interface LocationState {
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
 export default function PaperDetails() {
+  const { session } = useAuth();
   const location = useLocation();
   const { paper } = location.state as LocationState;
   const [aiSummary, setAiSummary] = useState<string>("");
@@ -26,46 +28,28 @@ export default function PaperDetails() {
   useEffect(() => {
     const generateSummary = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
         if (!session?.access_token) {
           throw new Error('No auth credentials found');
         }
 
         setLoading(true);
         
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        const response = await fetch(`${API_URL}/api/analyze-paper`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ abstract: paper.abstract })
+        });
 
-        try {
-          const response = await fetch(`${API_URL}/api/analyze-paper`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${session.access_token}`
-            },
-            body: JSON.stringify({ abstract: paper.abstract }),
-            signal: controller.signal
-          });
-
-          clearTimeout(timeoutId);
-
-          if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'Failed to generate summary');
-          }
-
-          const data = await response.json();
-          setAiSummary(data.summary);
-          
-        } catch (fetchError) {
-          if (fetchError.name === 'AbortError') {
-            throw new Error('Request timed out. Please try again.');
-          }
-          throw fetchError;
-        } finally {
-          clearTimeout(timeoutId);
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to generate summary');
         }
+
+        const data = await response.json();
+        setAiSummary(data.summary);
 
       } catch (error) {
         console.error('Error:', error);
@@ -80,7 +64,7 @@ export default function PaperDetails() {
     };
 
     generateSummary();
-  }, [paper]);
+  }, [paper, session]);
 
   return (
     <div className="container max-w-4xl mx-auto px-4 py-24">
