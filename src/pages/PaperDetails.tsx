@@ -32,6 +32,9 @@ export default function PaperDetails() {
           throw new Error('No valid session');
         }
 
+        console.log('Making API request with token:', session.access_token.substring(0, 10) + '...');
+        console.log('Abstract:', paper.abstract.substring(0, 100) + '...');
+
         const response = await fetch(`${API_URL}/api/analyze-paper`, {
           method: 'POST',
           headers: {
@@ -41,15 +44,23 @@ export default function PaperDetails() {
           body: JSON.stringify({ abstract: paper.abstract }),
         });
 
-        if (!response.ok) {
-          const error = await response.json();
-          throw new Error(error.message || 'Failed to generate summary');
-        }
+        console.log('API Response Status:', response.status);
+        console.log('API Response Headers:', Object.fromEntries(response.headers.entries()));
 
         const data = await response.json();
+        console.log('API Response Data:', data);
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to generate summary');
+        }
+
         setAiSummary(data.summary);
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Detailed Error:', {
+          message: error instanceof Error ? error.message : 'Unknown error',
+          time: new Date().toISOString()
+        });
+        
         toast({
           title: "Error",
           description: error instanceof Error ? error.message : "Failed to generate summary",
