@@ -186,14 +186,12 @@ export default function ResearchReport() {
     setCurrentStep(0);
 
     try {
-      // Get the current session
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session?.access_token) {
         throw new Error('No valid session');
       }
 
-      // Simulate steps with delays
       setCurrentStep(1);
       setPaperCount(8);
       await new Promise(r => setTimeout(r, 1000));
@@ -206,20 +204,27 @@ export default function ResearchReport() {
         throw new Error('API URL is not configured');
       }
 
+      console.log('Making request to:', `${baseUrl}/api/generate-report`);
+      console.log('With token:', session.access_token.substring(0, 10) + '...');
+
       const response = await fetch(`${baseUrl}/api/generate-report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${session.access_token}`,
-          'Origin': window.location.origin
         },
-        credentials: 'include',
         body: JSON.stringify({ query }),
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to generate report');
+        const errorData = await response.json().catch(() => null);
+        console.error('Server error response:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorData,
+          headers: Object.fromEntries(response.headers.entries())
+        });
+        throw new Error(errorData?.error || 'Failed to generate report');
       }
 
       const data = await response.json();
