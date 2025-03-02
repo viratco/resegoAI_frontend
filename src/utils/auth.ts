@@ -1,6 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'http://localhost:5001/api';
 
 export interface AuthResponse {
   user: {

@@ -2,10 +2,13 @@ import { Brain, ChartLine, Database, Layers, Network, ArrowRight, Sparkles, User
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Instagram, Linkedin } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,86 +80,309 @@ const Index = () => {
               stay ahead in the rapidly evolving field of artificial intelligence.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="group px-8 py-3 rounded-lg bg-[#8B5CF6] text-white font-medium hover:bg-[#7C3AED] transition-all duration-300 flex items-center justify-center gap-2">
-                Start Exploring
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <Link 
-                to="/how-it-works" 
-                className="px-8 py-3 rounded-lg border border-[#8B5CF6]/20 text-[#8B5CF6] hover:bg-[#8B5CF6]/5 transition-all duration-300"
-              >
-                How It Works
-              </Link>
+              {user ? (
+                <Link to="/research">
+                  <Button size="lg">
+                    Start Researching
+                  </Button>
+                </Link>
+              ) : (
+                <div className="space-y-4">
+                  <p className="text-gray-600">
+                    Sign in to access research features
+                  </p>
+                  <div className="flex gap-4 justify-center">
+                    <Link to="/signin">
+                      <Button variant="outline">Sign In</Button>
+                    </Link>
+                    <Link to="/signup">
+                      <Button>Sign Up</Button>
+                    </Link>
+                  </div>
+                </div>
+              )}
+              <div className="flex gap-4 mt-8">
+                <button
+                  onClick={() => {
+                    document.getElementById('how-it-works')?.scrollIntoView({ 
+                      behavior: 'smooth',
+                      block: 'start'
+                    });
+                  }}
+                  className="bg-[#8B5CF6] text-white px-6 py-2 rounded-lg hover:bg-[#7C3AED] transition-colors"
+                >
+                  How it Works
+                </button>
+                {/* ... other buttons ... */}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4 bg-white relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-white to-[#F1F0FB] opacity-70" />
-        <div className="container max-w-6xl mx-auto relative">
+      {/* Features Section - seamless connection with the hero section */}
+      <section className="py-20 px-4 bg-gradient-to-br from-[#F1F0FB] via-[#F5F3FF] to-[#E5DEFF]">
+        <div className="container max-w-6xl mx-auto">
           <div className="text-center mb-16 animate-on-scroll opacity-0" data-animation="fade-in-up">
             <span className="px-4 py-2 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] font-medium text-sm mb-6 inline-block">
               <Sparkles className="w-4 h-4 inline-block mr-2" />
-              Features
+              Key Features
             </span>
-            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
-              Everything You Need
+            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
+              Powerful AI Research Tools
             </h2>
             <p className="text-[#6B7280] max-w-2xl mx-auto">
-              Access powerful tools and features designed specifically for AI
-              researchers and enthusiasts.
+              Our platform combines cutting-edge technology with user-friendly design to enhance your research experience.
             </p>
           </div>
+          
+          {/* First Feature Block - Image Left, Text Right */}
+          <div className="mb-24 animate-on-scroll opacity-0" data-animation="fade-in-up">
+            <div className="max-w-6xl w-full rounded-lg overflow-hidden">
+              <div className="flex flex-col md:flex-row">
+                {/* Left row - Image */}
+                <div className="w-full md:w-1/2 p-6 flex items-center justify-center">
+                  <div className="w-full h-full max-h-[700px] overflow-hidden rounded-lg">
+                    <img 
+                      src="report.jpg" 
+                      alt="AI-powered research" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                
+                {/* Right row - Text content */}
+                <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col">
+                  <div className="inline-flex items-center bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium mb-6 self-start">
+                    
+                    RESEARCH REPORT
+                  </div>
+                  
+                  <h3 className="text-3xl font-bold text-purple-800 mb-6">
+                    Analyze more evidence, more accurately
+                  </h3>
+                  
+                  <p className="text-purple-700 text-lg mb-6">
+                    Systematic reviews are the gold standard of evidence synthesis, but take too long.
+                  </p>
+                  
+                  <div className="space-y-6">
+                    <div className="border-l-4 border-purple-300 pl-4">
+                      <h4 className="text-xl font-semibold text-purple-800 mb-2">
+                      50% Faster Processing 
+                      </h4>
+                      <p className="text-purple-600">
+                      Analyze more studies in less time, gaining deeper insights into individual papers.
+                      </p>
+                    </div>
+                    
+                    <div className="border-l-4 border-purple-300 pl-4">
+                      <h4 className="text-xl font-semibold text-purple-800 mb-2">
+                      Effortless Data Extraction
+                      </h4>
+                      <p className="text-purple-600">
+                      Extract key information from hundreds of papers, including data hidden in tables, within minutes.
+                      </p>
+                    </div>
+                    
+                    <div className="border-l-4 border-purple-300 pl-4">
+                      <h4 className="text-xl font-semibold text-purple-800 mb-2">
+                      AI-Powered Screening
+                      </h4>
+                      <p className="text-purple-600">
+                      identify relevant research with automated yet fully transparent selection processes.
 
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Second Feature Block - Text Left, Image Right */}
+          <div className="animate-on-scroll opacity-0" data-animation="fade-in-up">
+            <div className="max-w-6xl w-full rounded-lg overflow-hidden">
+              <div className="flex flex-col md:flex-row-reverse">
+                {/* Right row - Image */}
+                <div className="w-full md:w-1/2 p-6 flex items-center justify-center">
+                  <div className="w-full h-full max-h-[900px] overflow-hidden rounded-lg">
+                    <img 
+                      src="paper.jpg" 
+                      alt="AI collaboration" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+                
+                {/* Left row - Text content */}
+                <div className="w-full md:w-1/2 p-6 md:p-8 flex flex-col">
+                  <div className="inline-flex items-center bg-purple-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium mb-6 self-start">
+                    <Network size={16} className="mr-2" />
+                    AI-POWERED RESEARCH PAPER SEARCH
+                  </div>
+                  
+                  <h3 className="text-3xl font-bold text-purple-800 mb-6">
+                  Find relevant research papers instantly with AI-generated summaries.                  </h3>
+                  
+                  <p className="text-purple-700 text-lg mb-6">
+                  Access a vast database of academic papers across multiple disciplines to stay updated on the latest research with -
+                  </p>
+                  
+                  <div className="space-y-6">
+                    <div className="border-l-4 border-purple-300 pl-4">
+                      <h4 className="text-xl font-semibold text-purple-800 mb-2">
+                       Smart Paper Discovery
+                      </h4>
+                      <p className="text-purple-600">
+                      Simply enter a topic, and our AI will fetch the most relevant research papers from trusted sources.
+                      </p>
+                    </div>
+                    
+                    <div className="border-l-4 border-purple-300 pl-4">
+                      <h4 className="text-xl font-semibold text-purple-800 mb-2">
+                       AI-Generated Summaries
+                      </h4>
+                      <p className="text-purple-600">
+                      Save time with concise, AI-powered summaries that highlight key findings and insights from each paper.
+                      </p>
+                    </div>
+                    
+                    <div className="border-l-4 border-purple-300 pl-4">
+                      <h4 className="text-xl font-semibold text-purple-800 mb-2">
+                       Effortless Exploration                      </h4>
+                      <p className="text-purple-600">
+                      Navigate complex topics easily with AI-driven recommendations and keyword-based filtering.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section (replacing Stats Section) */}
+      <section className="py-20 px-4 bg-gradient-to-br from-[#F1F0FB] via-[#F5F3FF] to-[#E5DEFF]">
+        <div className="container max-w-6xl mx-auto">
+          <div className="text-center mb-16 animate-on-scroll opacity-0" data-animation="fade-in-up">
+            <span className="px-4 py-2 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] font-medium text-sm mb-6 inline-block">
+              <Users className="w-4 h-4 inline-block mr-2" />
+              Testimonials
+            </span>
+            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF]">
+              What Our Users Say
+            </h2>
+            <p className="text-[#6B7280] max-w-2xl mx-auto">
+              Discover how our platform has transformed research workflows for professionals around the world.
+            </p>
+          </div>
+          
           <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div
-                key={feature.title}
-                className="animate-on-scroll opacity-0 bg-gradient-to-br from-white to-[#F1F0FB] p-8 rounded-xl border border-[#E5DEFF] shadow-lg"
-                data-animation="fade-in-blur"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="bg-[#8B5CF6]/10 w-14 h-14 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="w-8 h-8 text-[#8B5CF6]" />
+            {/* Testimonial 1 */}
+            <div className="animate-on-scroll opacity-0 bg-white/50 p-8 rounded-xl shadow-sm" data-animation="fade-in-up" style={{ animationDelay: "0ms" }}>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#8B5CF6]/20 flex items-center justify-center mr-4">
+                  <Users className="w-6 h-6 text-[#8B5CF6]" />
                 </div>
-                <h3 className="font-heading text-xl font-semibold mb-3 text-[#1F2937]">
-                  {feature.title}
-                </h3>
-                <p className="text-[#6B7280] leading-relaxed">
-                  {feature.description}
-                </p>
+                <div>
+                  <h4 className="font-semibold text-lg text-[#1F2937]">priyanshu kumar</h4>
+                  <p className="text-[#6B7280] text-sm">University of Delhi</p>
+                </div>
               </div>
-            ))}
+              <p className="text-[#4B5563] italic mb-4">
+              “This website has been a game-changer for my school assignments. The AI-powered search helped me find the most relevant research papers in seconds, and the summaries made understanding complex topics effortless. It's like having a personal research assistant!”              </p>
+              <div className="flex text-[#8B5CF6]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              </div>
+            </div>
+            
+            {/* Testimonial 2 */}
+            <div className="animate-on-scroll opacity-0 bg-white/50 p-8 rounded-xl shadow-sm" data-animation="fade-in-up" style={{ animationDelay: "100ms" }}>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#8B5CF6]/20 flex items-center justify-center mr-4">
+                  <Users className="w-6 h-6 text-[#8B5CF6]" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg text-[#1F2937]">Aisha Patel</h4>
+                  <p className="text-[#6B7280] text-sm">Graduate Student in Biotechnology
+                  </p>
+                </div>
+              </div>
+              <p className="text-[#4B5563] italic mb-4">
+              “I used to spend hours digging through research papers, but now, I get AI-curated papers with key insights in seconds. This platform has made my academic work so much more efficient!”              </p>
+              <div className="flex text-[#8B5CF6]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              </div>
+            </div>
+            
+            {/* Testimonial 3 */}
+            <div className="animate-on-scroll opacity-0 bg-white/50 p-8 rounded-xl shadow-sm" data-animation="fade-in-up" style={{ animationDelay: "200ms" }}>
+              <div className="flex items-center mb-6">
+                <div className="w-12 h-12 rounded-full bg-[#8B5CF6]/20 flex items-center justify-center mr-4">
+                  <Users className="w-6 h-6 text-[#8B5CF6]" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-lg text-[#1F2937]">Dr. Maya Patel</h4>
+                  <p className="text-[#6B7280] text-sm">PhD Candidate in Computer Science</p>
+                </div>
+              </div>
+              <p className="text-[#4B5563] italic mb-4">
+              “This platform has completely transformed the way I research. The AI-powered summaries give me instant clarity on new papers, saving me time and effort. I highly recommend it to anyone in academia!”              </p>
+              <div className="flex text-[#8B5CF6]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-1">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 bg-[#F1F0FB] relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#8B5CF6]/5" />
-        <div className="container max-w-6xl mx-auto relative">
-          <div className="grid md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="animate-on-scroll opacity-0 text-center bg-white/80 p-6 rounded-xl border border-[#E5DEFF]"
-                data-animation="fade-in-blur"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className="font-heading text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#8B5CF6] to-[#D946EF] mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-[#6B7280]">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-4 bg-[#F1F0FB] relative">
+      <section id="how-it-works" className="py-20 px-4 bg-[#F1F0FB] relative">
         <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#8B5CF6]/5" />
         <div className="container max-w-6xl mx-auto relative">
           <div className="text-center mb-16 animate-on-scroll opacity-0" data-animation="fade-in-up">
@@ -242,7 +468,7 @@ const Index = () => {
             </h2>
             <div className="flex justify-center gap-6">
               <a
-                href="https://instagram.com/your-handle"
+                href="https://www.instagram.com/resegoai_/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"
@@ -250,7 +476,7 @@ const Index = () => {
                 <Instagram className="w-6 h-6" />
               </a>
               <a
-                href="https://linkedin.com/in/your-profile"
+                href="https://www.linkedin.com/in/resego-ai-046154354/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-[#8B5CF6]/10 text-[#8B5CF6] hover:bg-[#8B5CF6]/20 transition-colors"

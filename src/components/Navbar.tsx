@@ -1,113 +1,118 @@
-
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom"
+import { useLocation } from "react-router-dom"
+import { Button } from "@/components/ui/button"
+import { useAuth } from "@/contexts/AuthContext"
+import { useState, useEffect, useRef } from "react"
+import { ChevronDown, LogOut, User } from "lucide-react"
+import logo from '/logo.png'
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
+  // Hide navbar on auth pages
+  const isAuthPage = location.pathname === "/signin" || location.pathname === "/signup";
   if (isAuthPage) return null;
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white/80 backdrop-blur-sm shadow-sm" : "bg-transparent"
-      }`}
-    >
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b">
       <div className="container max-w-6xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="text-xl font-bold text-primary">
-            AI Research
-          </Link>
-          
-          <div className="hidden md:flex items-center gap-8">
-            <Link 
-              to="/" 
-              className={`text-gray-600 hover:text-primary transition-colors ${
-                location.pathname === "/" ? "text-primary" : ""
-              }`}
-            >
-              Home
+          <div className="flex items-center justify-center gap-2">
+            <Link to="/" className="flex items-center justify-center">
+              <img 
+                src={logo} 
+                alt="Logo" 
+                className="h-10 w-auto my-2"
+              />
             </Link>
-            <Link 
-              to="/inventory" 
-              className={`text-gray-600 hover:text-primary transition-colors ${
-                location.pathname === "/inventory" ? "text-primary" : ""
-              }`}
-            >
-              Inventory
-            </Link>
-            <Link to="/login">
-              <Button variant="outline" className="mr-2">Sign In</Button>
-            </Link>
-            <Link to="/register">
-              <Button>Sign Up</Button>
-            </Link>
-          </div>
+            
+            <h1 className="text-2xl font-bold text-[#8B5CF6] font-quicksand tracking-wide">
+              Resego AI
+            </h1>
 
-          <button 
-            className="md:hidden p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6 text-gray-600" />
-            ) : (
-              <Menu className="w-6 h-6 text-gray-600" />
+            {user && (
+              <div className="hidden md:flex items-center justify-center gap-8">
+                <Link 
+                  to="/research" 
+                  className="text-gray-600 hover:text-primary transition-colors"
+                >
+                  Research
+                </Link>
+                <Link 
+                  to="/inventory" 
+                  className="text-gray-600 hover:text-primary transition-colors"
+                >
+                  Inventory
+                </Link>
+              </div>
             )}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <div className="flex flex-col gap-4">
-              <Link 
-                to="/" 
-                className={`text-gray-600 hover:text-primary transition-colors ${
-                  location.pathname === "/" ? "text-primary" : ""
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                to="/inventory" 
-                className={`text-gray-600 hover:text-primary transition-colors ${
-                  location.pathname === "/inventory" ? "text-primary" : ""
-                }`}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Inventory
-              </Link>
-              <Link 
-                to="/login"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Button variant="outline" className="w-full mb-2">Sign In</Button>
-              </Link>
-              <Link 
-                to="/register"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Button className="w-full">Sign Up</Button>
-              </Link>
-            </div>
           </div>
-        )}
+          
+          <div className="hidden md:flex items-center">
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="flex items-center gap-2 hover:bg-gray-100/50"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                      <User className="h-4 h-4" />
+                    </div>
+                    <span>{user.email?.split('@')[0]}</span>
+                    <ChevronDown className="w-4 h-4 text-gray-500" />
+                  </div>
+                </Button>
+                {showDropdown && (
+                  <div className="absolute right-0 mt-2 w-56 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-[100]">
+                    <div className="py-1">
+                      <div className="px-4 py-2 text-sm text-gray-500 border-b">
+                        Signed in as <span className="font-medium text-gray-900">{user.email}</span>
+                      </div>
+                      <button
+                        onClick={handleSignOut}
+                        className="w-full px-4 py-2 text-left text-sm flex items-center gap-2 text-red-600 hover:bg-red-50 transition-colors group"
+                      >
+                        <LogOut className="w-4 h-4 group-hover:text-red-600" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <Link to="/signin">
+                  <Button variant="outline">Sign In</Button>
+                </Link>
+                <Link to="/signup" className="ml-4">
+                  <Button>Sign Up</Button>
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </nav>
   );
