@@ -206,8 +206,7 @@ export default function ResearchReport() {
         throw new Error('API URL is not configured');
       }
 
-      const url = new URL('/api/generate-report', baseUrl);
-      const response = await fetch(url, {
+      const response = await fetch(`${baseUrl}/api/generate-report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
