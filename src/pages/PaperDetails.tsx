@@ -29,7 +29,7 @@ export default function PaperDetails() {
         const { data: { session } } = await supabase.auth.getSession();
         
         if (!session?.access_token) {
-          throw new Error('No valid session');
+          throw new Error('No auth credentials found');
         }
 
         setLoading(true);
