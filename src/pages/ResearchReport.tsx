@@ -211,8 +211,10 @@ export default function ResearchReport() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`
+          'Authorization': `Bearer ${session.access_token}`,
+          'Origin': window.location.origin
         },
+        credentials: 'include',
         body: JSON.stringify({ query }),
       });
 
